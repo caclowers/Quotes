@@ -1,47 +1,27 @@
 const express = require('express');
-//const quotes = require('./quotes.js')
-
+// const quotes = require('./public/scripts/quotes')
+const bodyParser = require('body-parser')
 const app = express(); //makes a server app
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5001;
 
 app.use(express.static('server/public'));//place above app.listen
 // respond with assets
+app.use(bodyParser.urlencoded({ extended: true }))
 
-let quotesArray = [{
-    quote: 'Be the change you wish to see.',
-    author: 'Gandhi'
-}, {
-    quote: 'Every moment is a fresh beginning.',
-    author: 'T.S. Eliot'
-}, {
-    quote: 'Die with memories, not dreams.',
-    author: 'Unknown'
-}, {
-    quote: 'All limitations are self-imposed.',
-    author: 'Oliver Wendell Holmes'
-}, {
-    quote: 'There is no substitute for hard work.',
-    author: 'Thomas Edison'
-}, {
-    quote: 'Boldness be my friend.',
-    author: 'William Shakespeare'
-}, {
-    quote: 'If you’re going through hell, keep going.',
-    author: 'Winston Churchill'
-},{
-    quote: 'Broken crayons still color.',
-    author: 'Unknown'
-},{
-    quote: 'It does not matter how slowly you go as long as you do not stop.',
-    author: 'Confucius'
-},{
-    quote: 'I bet giraffes don’t even know what farts smell like.',
-    author: 'Bill Murray'
-}];
+const quotes = require('./quotes')
 
 app.get('/quotes', function(req, res){
-    res.send(quotesArray);
-    //res.send(quotesArray);
+    let responseString = 'howdy';
+    console.log(quotes.length);
+    
+    res.send(quotes);
+  })
+
+  app.post('/quotes', function(req, res){
+    console.log('req.body', req.body);
+    res.sendStatus(201);
+    console.log('before');
+      quotes.push(req.body)
   })
 
 // allow for incoming request
